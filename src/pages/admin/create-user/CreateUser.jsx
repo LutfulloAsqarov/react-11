@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./CreateUser.scss";
+import axios from "../../../api";
 
 let initialState = {
     firstName: "John",
@@ -11,9 +12,22 @@ let initialState = {
 const CreateUsers = () => {
     const [newUser, setNewUser] = useState(initialState);
     console.log(newUser);
+
+    const handleCreate = (e) => {
+        e.preventDefault();
+
+        axios
+            .post("/users", newUser)
+            .then((res) => {
+                setNewUser(initialState);
+                console.log(res);
+            })
+            .catch((err) => console.log(err));
+    };
+
     return (
         <div>
-            <form className="form">
+            <form className="form" onSubmit={handleCreate}>
                 <h2 className="form__title">Create User</h2>
                 <input
                     className="form__input"
